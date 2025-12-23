@@ -29,11 +29,12 @@ class HomeBottomNav extends StatelessWidget {
     NavItem(
       route: '/profile',
       icon: Icons.person_outline,
+
       activeIcon: Icons.person,
       label: 'Profil',
     ),
     // ÖRNEK EKLEME:
-    // NavItem(route: '/settings', icon: Icons.settings_outlined, activeIcon: Icons.settings, label: 'Ayarlar'),
+     NavItem(route: '/settings', icon: Icons.settings_outlined, activeIcon: Icons.settings, label: 'Ayarlar'),
   ];
 
   int _indexFromLocation(String path) {
@@ -63,9 +64,9 @@ class HomeBottomNav extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+        padding: const EdgeInsets.fromLTRB(2, 15, 2, 10),
         child: SizedBox(
-          height: 66,
+          height: 75,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -107,7 +108,7 @@ class HomeBottomNav extends StatelessWidget {
                         ),
 
                         // NOTCH boşluğu (orta)
-                        const SizedBox(width: 78),
+                        const SizedBox(width: 50),
 
                         // SAĞ ikonlar
                         Expanded(
@@ -135,15 +136,15 @@ class HomeBottomNav extends StatelessWidget {
 
               // Ortadaki + buton (floating)
               Positioned(
-                top: -18,
+                top: -20,
                 left: 0,
                 right: 0,
                 child: Center(
                   child: GestureDetector(
                     onTap: onPlusTap,
                     child: Container(
-                      width: 54,
-                      height: 54,
+                      width: 65,
+                      height: 65,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: style.plusColor,
@@ -155,7 +156,7 @@ class HomeBottomNav extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Icon(Icons.add, color: style.plusIconColor, size: 28),
+                      child: Icon(Icons.add, color: style.plusIconColor, size: 40),
                     ),
                   ),
                 ),
@@ -198,7 +199,7 @@ extension on NavVariant {
         return const _NavStyle(
           barColor: Colors.amberAccent, // koyu
           activeColor: Color(0xFF8B5CF6), // mor
-          inactiveColor: Color(0xFF9CA3AF), // gri
+          inactiveColor: Colors.deepPurple, // gri
           plusColor: Color(0xFF8B5CF6),
           plusIconColor: Colors.white,
         );
@@ -247,7 +248,7 @@ class _NavIconButton extends StatelessWidget {
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOutBack,
         scale: selected ? 1.12 : 1.0,
-        child: Icon(icon, color: color, size: 24),
+        child: Icon(icon, color: color, size: 29),
       ),
     );
   }
