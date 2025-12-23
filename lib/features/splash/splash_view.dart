@@ -1,8 +1,12 @@
+// lib/features/splash/splash_view.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../onboarding/onboarding_controller.dart';
+import '../../features/onboarding/onboarding_controller.dart';
+
+const _kOnboarding = '/onboarding';
+const _kHome = '/home';
 
 class SplashView extends ConsumerStatefulWidget {
   const SplashView({super.key});
@@ -17,28 +21,29 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
     super.initState();
-
-    // ✅ Native splash sonrası ilk frame gelir gelmez yönlendir
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _goNext();
-    });
+    // İlk frame sonrası navigate (context güvenli)
+    WidgetsBinding.instance.addPostFrameCallback((_) => _goNext());
   }
 
   void _goNext() {
-    if (!mounted || _navigated) return;
+    if (_navigated || !mounted) return;
     _navigated = true;
 
     final prefs = ref.read(appPrefsProvider);
-    context.go(prefs.onboardingComplete ? '/home' : '/onboarding');
+    final target = prefs.onboardingComplete ? _kHome : _kOnboarding;
+
+    // replace: splash stack'te kalmasın
+    context.go(target);
   }
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Bu ekran pratikte 1 frame görünüp çıkacak (köprü ekran)
-    // Beyaz flash olmasın diye arka planı koyu tutuyoruz.
     return const Scaffold(
-      backgroundColor: Color(0xFF0F172A),
-      body: SizedBox.expand(),
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }
