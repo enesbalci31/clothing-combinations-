@@ -178,31 +178,6 @@ class EmptyState extends StatelessWidget {
 }
 
 // ---------- Bottom Nav + placeholders ----------
-
-class HomeBottomNav extends StatelessWidget {
-  final int index;
-  final ValueChanged<int> onChanged;
-
-  const HomeBottomNav({
-    super.key,
-    required this.index,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationBar(
-      selectedIndex: index,
-      onDestinationSelected: onChanged,
-      destinations: const [
-        NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Ana'),
-        NavigationDestination(icon: Icon(Icons.list_alt_outlined), label: 'Kayıtlar'),
-        NavigationDestination(icon: Icon(Icons.person_outline), label: 'Profil'),
-      ],
-    );
-  }
-}
-
 class RecordsPlaceholder extends StatelessWidget {
   const RecordsPlaceholder({super.key});
 

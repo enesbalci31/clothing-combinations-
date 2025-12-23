@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/onboarding/onboarding_controller.dart';
 import '../features/onboarding/onboarding_page.dart';
+import '../features/profil/profile_page.dart';
 import '../features/splash/splash_view.dart';
 import '../home/home_page.dart';
 import '../settings/settings_page.dart';
@@ -12,6 +13,8 @@ const _kSplash = '/splash';
 const _kOnboarding = '/onboarding';
 const _kHome = '/home';
 const _kSettings = '/settings';
+const _kProfile = '/profile';
+
 
 CustomTransitionPage<T> _fadePage<T>({
   required GoRouterState state,
@@ -60,6 +63,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           child: const HomePage(),
         ),
       ),
+      GoRoute(
+        path: _kProfile,
+        pageBuilder: (context, state) => _fadePage(
+          state: state,
+          child: const ProfilePage(),
+        ),
+      ),
+
       GoRoute(
         path: _kSettings,
         pageBuilder: (context, state) => _fadePage(

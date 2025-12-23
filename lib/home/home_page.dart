@@ -1,53 +1,46 @@
-import 'package:clothess/home/widgets/home_app_bar.dart';
-import 'package:clothess/home/widgets/home_body.dart';
-import 'package:clothess/home/widgets/home_widgets.dart';
+import 'package:clothess/home/ui/app_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../shared/ui/app_background.dart';
+import 'package:go_router/go_router.dart';
 import '../features/onboarding/onboarding_controller.dart';
+import 'widgets/home_app_bar.dart';
+import 'widgets/home_body.dart';
+import 'model/home_bottom_navigation_bar.dart';
 
-
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  int _tabIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.read(appPrefsProvider);
     final name = prefs.displayName.isNotEmpty ? prefs.displayName : '👋';
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: HomeAppBar(name: name),
-      body: AppBackground.onboarding(
-        child: SafeArea(
-          child: IndexedStack(
-            index: _tabIndex,
-            children: [
-              HomeBody(
-                onTakePhoto: () {
-                  // TODO: kamera -> ürün/müşteri foto
-                },
-                onNewRecord: () {
-                  // TODO: yeni kayıt akışı
-                },
-                onGoRecords: () => setState(() => _tabIndex = 1),
-              ),
-              const RecordsPlaceholder(),
-              const ProfilePlaceholder(),
-            ],
+    return AppBackground.onboarding(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        appBar: HomeAppBar(name: name),
+        body: SafeArea(
+          child: HomeBody(
+            onTakePhoto: () {
+              // TODO: kamera -> ürün/müşteri foto
+            },
+            onNewRecord: () {
+              // TODO: yeni kayıt akışı
+            },
+            onGoRecords: () {
+              // Route tabanlı gidiyoruz:
+              context.go('/records');
+            },
           ),
         ),
-      ),
-      bottomNavigationBar: HomeBottomNav(
-        index: _tabIndex,
-        onChanged: (i) => setState(() => _tabIndex = i),
+        bottomNavigationBar: HomeBottomNav(
+          variant: NavVariant.dark,
+          onPlusTap: () {
+            // TODO: + butonu ile “Yeni Kayıt” / “Foto Çek”
+          },
+        ),
       ),
     );
   }
